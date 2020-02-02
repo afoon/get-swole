@@ -6,7 +6,8 @@ const path = require('path')
 const connect = require('connect')
 const vhost = require('vhost')
 const {domain} = require('./config')
-var http = require('http');
+const HTTP = require('http');
+const bot  = require('./swole_bot.js');
 const port = 3000
 const Player = require('./db').Player
 
@@ -18,26 +19,17 @@ const Player = require('./db').Player
 app.use(cors());
 app.use(bodyParser.json())
 
+const server = HTTP.createServer(function (req, res) {
+  req.chunks = [];
+  req.on('data', function (chunk) {
+    req.chunks.push(chunk.toString());
+  });
 
-var appTest = connect()
-
-app.use(vhost(domain, (req, res) => {
-  // handle req + res belonging to mail.example.com
-  res.setHeader('Content-Type', 'text/plain')
-  res.end('Test test')
-}))
-
-// an external api server in any framework
-var httpServer = http.createServer(function (req, res) {
-  res.setHeader('Content-Type', 'text/plain')
-  res.end('hello from the api!')
-})
-
-app.use(vhost('domain', function (req, res) {
-  // handle req + res belonging to api.example.com
-  // pass the request to a standard Node.js HTTP server
-  httpServer.emit('request', req, res)
-})) 
+  router.dispatch(req, res, function(err) {
+    res.writeHead(err.status, {"Content-Type": "text/plain"});
+    res.end(err.message);
+  });
+});
 
 
 //////////////////////////////////
@@ -67,7 +59,7 @@ app.get('/', function (req, res) {
 
 var userRouter = require('./username')
 app.use('/:username', userRouter)
-const server = app.listen(port, 'localhost',  () => {
+server.listen(port,  () => {
     console.log(`Andre ${port}`)
 });
 
