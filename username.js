@@ -16,6 +16,7 @@ const router =  express.Router({
   router.get('/', function (req, res) {
     const {username} = req.params
     Player.findOne({username: username}, (err, player) => {
+      console.log(player)
         if (err) throw err;
         res.send({name: player.name, workouts:player.workouts})
     })
