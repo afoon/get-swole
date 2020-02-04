@@ -3,7 +3,7 @@ const axios = require('axios');
 const {BOT_ID, DOMAIN} = process.env
 
 const workoutResponse = (name) => {
-  axios.post(`${DOMAIN}/${name}/workout`).then(
+  axios.post(`${DOMAIN}/${name}/workouts`).then(
     (res) => {console.log(res)}
   ).catch(function (error) {
     console.log(error);
