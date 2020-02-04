@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const path = require('path')
 const Player = require('./db').Player
+const {respond} = require('./swole_bot')
 const {PORT} = process.env
 
 
@@ -29,6 +30,10 @@ app.get('/', function (req, res) {
       res.send(players)
     })
   })
+
+app.post('/api/bot', (req, res) => {
+  respond(req,res);
+})
 
 
 // app.put(`/api/workout/:username`, (res,req) {

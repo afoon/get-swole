@@ -3,7 +3,7 @@ const express = require('express')
 const helpers = require('./helpers')
 const axios = require('axios');
 const Player = require('./db').Player
-const {BOT_ID, GM_TOKEN} = process.env
+const {BOT_ID, GM_TOKEN, GM_DOMAIN} = process.env
 
 const router =  express.Router({
     mergeParams: true
@@ -67,7 +67,7 @@ const router =  express.Router({
               break;
           default: workoutResponse = `This is your ${workouts}th workout this week, ${player.name}`
         }
-        axios.post(`https://api.groupme.com/v3/bots/post`, {"text":workoutResponse, "bot_id": BOT_ID}).then(
+        axios.post(`${GM_DOMAIN}`, {"text":workoutResponse, "bot_id": BOT_ID}).then(
           (res) => {console.log(res)}
         ).catch(function (error) {
           console.log(error);
