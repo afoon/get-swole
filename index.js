@@ -1,16 +1,11 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
 const path = require('path')
-const connect = require('connect')
-const vhost = require('vhost')
-const {domain} = require('./config')
-const HTTP = require('http');
-const bot  = require('./swole_bot.js');
-const port = 3000
 const Player = require('./db').Player
-
+const {PORT} = process.env
 
 
 ///////////////////////////////////
@@ -18,19 +13,6 @@ const Player = require('./db').Player
 ///////////////////////////////////
 app.use(cors());
 app.use(bodyParser.json())
-
-const server = HTTP.createServer(function (req, res) {
-  req.chunks = [];
-  req.on('data', function (chunk) {
-    req.chunks.push(chunk.toString());
-  });
-
-  router.dispatch(req, res, function(err) {
-    res.writeHead(err.status, {"Content-Type": "text/plain"});
-    res.end(err.message);
-  });
-});
-
 
 //////////////////////////////////
 ///////////// helper /////////////
@@ -57,9 +39,11 @@ app.get('/', function (req, res) {
 
 // })
 
+
+
 var userRouter = require('./username')
 app.use('/:username', userRouter)
-server.listen(port,  () => {
-    console.log(`Andre ${port}`)
+const server = app.listen(PORT, () => {
+    console.log(`Andre ${PORT}`)
 });
 

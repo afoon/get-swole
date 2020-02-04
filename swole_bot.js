@@ -1,5 +1,6 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const HTTPS = require('https');
-const botID = require('./config');
+const {BOT_ID} = process.env
 
 const workoutRespose = () => {
     const botResponse = `Yay for workouts`
@@ -31,7 +32,7 @@ const workoutRespose = () => {
 }
 
 const respond = () => {
-  const request = JSON.parse(this.req.chunks[0]),
+  const request = JSON.parse(this.req.body.messages),
       botRegex = /^\/workout$/;
 
   if(request.text && botRegex.test(request.text)) {

@@ -2,15 +2,16 @@
   "name": "swole-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "swole_bot.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
+    "dev": "nodemon index.js"}
+  ,
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "connect": "^3.7.0",
     "cors": "^2.8.5",
