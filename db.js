@@ -14,7 +14,7 @@ db.once('open', function (callback) {
 })
 
 const playerSchema = mongoose.Schema({
-  userId: Number,
+  userId: String,
   name: String,
   wins: Number,
   workouts: Number,
