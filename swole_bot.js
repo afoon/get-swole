@@ -37,7 +37,8 @@ const createNewPlayer = (userId, name, text) => {
 const respond = (req, res) => {
   res.end()
   console.log('req', req.body)
-  const { user_id: userId, text, name } = req.body
+  const { user_id: userId, text, name, sender_type: sender } = req.body
+  sender === 'bot' && res.end()
   if (userId) {
     Player.findOne({ userId: userId }, (err, player) => {
       if (err) { throw err }
