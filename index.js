@@ -3,52 +3,34 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
-const path = require('path')
 const Player = require('./db').Player
-const {respond} = require('./swole_bot')
-const {PORT} = process.env
+const { respond } = require('./swole_bot')
+const { PORT } = process.env
 
+// /////////////////////////////// //
+// ///////// middleware ////////// //
+// /////////////////////////////// //
 
-///////////////////////////////////
-/////////// middleware ////////////
-///////////////////////////////////
 app.use(cors());
 app.use(bodyParser.json())
 
-//////////////////////////////////
-///////////// helper /////////////
-//////////////////////////////////
-
-const helper = require('./helpers')
-
-///////////////////////////////////
-/////////// endpoints /////////////
-///////////////////////////////////
+/// ////////////////////////////// //
+// ///////// endpoints /////////// //
+// /////////////////////////////// //
 
 app.get('/', function (req, res) {
-    Player.find({}, (err, players) => {
-      res.send(players)
-    })
+  Player.find({}, (err, players) => {
+    if (err) throw err
+    res.send(players)
   })
-
-app.post('/api/bot', (req, res) => {
-  respond(req,res);
 })
 
-
-// app.put(`/api/workout/:username`, (res,req) {
-//     const {username} = req.params;
-//     const user = getUser(username);
-//     console.log(`found ${user.name}`)
-    
-
-// })
-
-
+app.post('/api/bot', (req, res) => {
+  respond(req, res);
+})
 
 var userRouter = require('./username')
 app.use('/:username', userRouter)
-const server = app.listen(PORT, () => {
-    console.log(`Andre ${PORT}`)
+app.listen(PORT, () => {
+  console.log(`Andre ${PORT}`)
 });
-

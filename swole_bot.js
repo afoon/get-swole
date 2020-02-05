@@ -30,7 +30,7 @@ const createNewPlayer = (userId, name, text) => {
   }, (err, player) => {
     if (err) { throw new Error('Cannot create new player', err) }
     console.log('NEW PLAYER ADDED')
-    evaluateText(text, userId);
+    evaluateText(text, player.userId);
   })
 }
 
