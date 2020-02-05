@@ -30,7 +30,7 @@ app.post('/api/bot', (req, res) => {
 })
 
 var userRouter = require('./username')
-app.use('/:username', userRouter)
+app.use('/:userId', userRouter)
 app.listen(PORT, () => {
   console.log(`Andre ${PORT}`)
 });

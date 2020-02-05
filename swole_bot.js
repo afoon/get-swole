@@ -20,7 +20,7 @@ const evaluateText = (text, userId, res) => {
 }
 const createNewPlayer = (userId, name, text) => {
   Player.create({
-    userId: `${userId}`,
+    userId: userId,
     name: name,
     wins: 0,
     workouts: 0,
@@ -41,7 +41,7 @@ const respond = (req, res) => {
   if (userId) {
     Player.findOne({ userId: userId }, (err, player) => {
       if (err) { throw err }
-      !player ? createNewPlayer(userId, name, text) : evaluateText(text, `${userId}`)
+      !player ? createNewPlayer(userId, name, text) : evaluateText(text, userId)
     })
   }
 }

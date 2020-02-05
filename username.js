@@ -27,26 +27,6 @@ router.use(function (err, req, res, next) {
   res.status(500).send("Uh oh spaghetti-os");
 });
 
-router.get("/challenge", function (req, res) {
-  const { userId } = req.params;
-  Player.findOne({ userId: userId }, (err, user) => {
-    console.error(err.stack);
-    res.send({ name: user.name, challenge: user.challenge });
-  });
-});
-
-router.put("/challenge", function (req, res) {
-  const { userId } = req.params;
-  Player.findOneAndUpdate(
-    { userId: userId },
-    { challenge: true },
-    (err, user) => {
-      console.error(err.stack);
-      res.end();
-    }
-  );
-});
-
 router.put("/workouts", function (req, res) {
   const { userId } = req.params;
   Player.findOne({ userId: userId }, (err, player) => {
@@ -85,22 +65,6 @@ router.put("/workouts", function (req, res) {
       .catch(function (error) {
         console.log(error);
       });
-    res.end();
-  });
-});
-
-router.put("/meals", function (req, res) {
-  const { userId } = req.params;
-  Player.findOne({ userId: userId }, (err, player) => {
-    if (err) throw err;
-    const meals = ++player.meals;
-    Player.updateOne(
-      { userId: userId },
-      { meals: meals },
-      (error, updatedPlayer) => {
-        if (error) throw error;
-      }
-    );
     res.end();
   });
 });
