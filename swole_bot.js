@@ -15,7 +15,6 @@ const evaluateText = (text, userId) => {
   const botRegex = /^\/workout/
   if (botRegex.test(text)) {
     workoutResponse(userId)
-    this.res.end()
   }
 }
 
