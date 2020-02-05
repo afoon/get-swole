@@ -3,18 +3,18 @@ const axios = require('axios')
 const { DOMAIN } = process.env
 const Player = require('./db').Player
 
-const workoutResponse = (name) => {
-  axios.put(`${DOMAIN}/${name}/workouts`).then(
-    (res) => { console.log(res) }
+const workoutResponse = (userId) => {
+  axios.put(`${DOMAIN}/${userId}/workouts`).then(
+    () => console.log('Going to the db')
   ).catch(function (error) {
     console.log(error)
   })
 }
 
-const evaluateText = (text, name) => {
+const evaluateText = (text, userId) => {
   const botRegex = /^\/workout/
   if (botRegex.test(text)) {
-    workoutResponse(name)
+    workoutResponse(userId)
     this.res.end()
   }
 }
@@ -31,7 +31,7 @@ const createNewPlayer = (userId, name, text) => {
   }, (err, player) => {
     if (err) { throw new Error('Cannot create new player', err) }
     console.log('NEW PLAYER ADDED')
-    evaluateText(text, name);
+    evaluateText(text, userId);
   })
 }
 
@@ -41,7 +41,7 @@ const respond = (req, res) => {
   if (userId) {
     Player.findOne({ userId: userId }, (err, player) => {
       if (err) { throw err }
-      !player ? createNewPlayer(userId, name, text) : evaluateText(text, name)
+      !player ? createNewPlayer(userId, name, text) : evaluateText(text, userId)
     })
   }
 }
