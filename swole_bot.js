@@ -11,31 +11,38 @@ const workoutResponse = (name) => {
   })
 }
 
+const evaluateText = (text, name) => {
+  const botRegex = /^\/workout/
+  if (botRegex.test(text)) {
+    workoutResponse(name)
+    this.res.end()
+  }
+}
+
+const createNewPlayer = (userId, name, text) => {
+  Player.create({
+    userId: userId,
+    name: name,
+    wins: 0,
+    workouts: 0,
+    meals: 0,
+    challenge: false,
+    totalPoints: 0
+  }, (err, player) => {
+    if (err) { throw new Error('Cannot create new player', err) }
+    console.log('NEW PLAYER ADDED')
+    evaluateText(text, name);
+  })
+}
+
 const respond = (req, res) => {
   console.log('req', req.body)
   const { user_id: userId, text, name } = req.body
   if (userId) {
     Player.findOne({ userId: userId }, (err, player) => {
       if (err) { throw err }
-      !player && Player.create({
-        userId: userId,
-        name: name,
-        wins: 0,
-        workouts: 0,
-        meals: 0,
-        challenge: false,
-        totalPoints: 0
-      }, (err, player) => {
-        if (err) { throw new Error('Cannot create new player', err) }
-        console.log('NEW PLAYER ADDED')
-      })
+      !player ? createNewPlayer(userId, name, text) : evaluateText(text, name)
     })
-  }
-  const botRegex = /^\/workout/
-
-  if (text && botRegex.test(text)) {
-    workoutResponse(name)
-    this.res.end()
   }
 }
 
