@@ -36,7 +36,7 @@ const createNewPlayer = (userId, name, text) => {
 
 const respond = (req, res) => {
   res.end()
-  console.log('req', req.body)
+  // console.log('req', req.body)
   const { user_id: userId, text, name, sender_type: sender } = req.body
   if (sender === 'bot') { return }
   if (userId) {
