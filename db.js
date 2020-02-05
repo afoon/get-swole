@@ -1,8 +1,10 @@
-const {database} = require('./config')
-const uri = database
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+const {DB_HOST, DB_USERNAME,DB_PW, DB} = process.env
+const uri = DB_HOST
 
 const mongoose = require('mongoose')
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(uri, {user: DB_USERNAME,pass: DB_PW ,useNewUrlParser: true, useUnifiedTopology: true
+}).catch( (err) => console.error(err))
 
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
@@ -20,4 +22,6 @@ const playerSchema = mongoose.Schema({
   totalPoints: Number,
 })
 exports.Player = mongoose.model('Player', playerSchema)
+
+
 

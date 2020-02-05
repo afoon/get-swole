@@ -1,18 +1,19 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const cors = require('cors');
 const path = require('path')
-
 const Player = require('./db').Player
-
+const {respond} = require('./swole_bot')
+const {PORT} = process.env
 
 
 ///////////////////////////////////
 /////////// middleware ////////////
 ///////////////////////////////////
-
+app.use(cors());
 app.use(bodyParser.json())
-
 
 //////////////////////////////////
 ///////////// helper /////////////
@@ -30,6 +31,10 @@ app.get('/', function (req, res) {
     })
   })
 
+app.post('/api/bot', (req, res) => {
+  respond(req,res);
+})
+
 
 // app.put(`/api/workout/:username`, (res,req) {
 //     const {username} = req.params;
@@ -39,10 +44,11 @@ app.get('/', function (req, res) {
 
 // })
 
+
+
 var userRouter = require('./username')
 app.use('/:username', userRouter)
-
-const server = app.listen(3000, () => {
-    console.log(`Andre ${server.address().port}`)
+const server = app.listen(PORT, () => {
+    console.log(`Andre ${PORT}`)
 });
 
