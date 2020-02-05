@@ -1,30 +1,42 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
-const axios = require('axios');
-const {BOT_ID, DOMAIN} = process.env
+const axios = require('axios')
+const { DOMAIN } = process.env
+const Player = require('./db').Player
 
 const workoutResponse = (name) => {
   axios.put(`${DOMAIN}/${name}/workouts`).then(
-    (res) => {console.log(res)}
+    (res) => { console.log(res) }
   ).catch(function (error) {
-    console.log(error);
-  });
-res.end()
+    console.log(error)
+  })
 }
 
-const respond = (req,res) => {
-  console.log(`hit endpoint`)
-  console.log(`req`, req.body)
-      botRegex = /^\/workout/
+const respond = (req, res) => {
+  console.log('req', req.body)
+  const { user_id: userId, text, name } = req.body
+  if (userId) {
+    Player.findOne({ userId: userId }, (err, player) => {
+      if (err) { throw err }
+      !player && Player.create({
+        userId: userId,
+        name: name,
+        wins: 0,
+        workouts: 0,
+        meals: 0,
+        challenge: false,
+        totalPoints: 0
+      }, (err, player) => {
+        if (err) { throw new Error('Cannot create new player', err) }
+        console.log('NEW PLAYER ADDED')
+      })
+    })
+  }
+  const botRegex = /^\/workout/
 
-  if(req.body.text && botRegex.test(req.body.text)) {
-    workoutResponse(req.body.name);
-    this.res.end();
-  } else {
-    console.log("don't care");
-    this.res.end();
+  if (text && botRegex.test(text)) {
+    workoutResponse(name)
+    this.res.end()
   }
 }
 
-
-
-exports.respond = respond;
+exports.respond = respond
