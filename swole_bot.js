@@ -5,17 +5,18 @@ const Player = require('./db').Player
 
 const workoutResponse = (userId) => {
   axios.put(`${DOMAIN}/${userId}/workouts`).then(
-    () => console.log('Going to the db')
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
   ).catch(function (error) {
     console.log(error)
   })
 }
 
-const evaluateText = (text, userId) => {
+const evaluateText = (text, userId, res) => {
   const botRegex = /^\/workout/
-  if (botRegex.test(text)) {
-    workoutResponse(userId)
-  }
+  botRegex.test(text) && workoutResponse(userId, res)
 }
 
 const createNewPlayer = (userId, name, text) => {
@@ -35,6 +36,7 @@ const createNewPlayer = (userId, name, text) => {
 }
 
 const respond = (req, res) => {
+  res.end()
   console.log('req', req.body)
   const { user_id: userId, text, name } = req.body
   if (userId) {
