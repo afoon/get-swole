@@ -14,7 +14,7 @@ res.end()
 const respond = (req,res) => {
   console.log(`hit endpoint`)
   console.log(`req`, req.body)
-      botRegex = /^\/workout$/
+      botRegex = /^\/workout/
 
   if(req.body.text && botRegex.test(req.body.text)) {
     workoutResponse(req.body.name);
