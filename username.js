@@ -129,7 +129,7 @@ router.put("/points", function (req, res) {
         console.log(updatedPlayer);
       }
     );
-    const pointResponse = `${player.name} has ${player.totalPoints} pt(s).`
+    const pointResponse = `${player.name} has ${points} pt(s).`
     axios
       .post(`${GM_DOMAIN}`, { text: pointResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
       .then(res => {
