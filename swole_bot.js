@@ -14,9 +14,48 @@ const workoutResponse = (userId) => {
   })
 }
 
+const mealResponse = (userId) => {
+  axios.put(`${DOMAIN}/${userId}/meals`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
+
+const challengeResponse = (userId) => {
+  axios.put(`${DOMAIN}/${userId}/challenge`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
+
+const pointsResponse = (userId) => {
+  axios.put(`${DOMAIN}/${userId}/points`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
+
 const evaluateText = (text, userId, res) => {
-  const botRegex = /^\/workout/
-  botRegex.test(text) && workoutResponse(userId, res)
+  const workout = /^\/workout/
+  const meal = /^\/meal/
+  const challenge = /^\/challenge/
+  const points = /^\/points/
+  workout.test(text) && workoutResponse(userId, res)
+  meal.test(text) && mealResponse(userId, res)
+  challenge.test(text) && challengeResponse(userId, res)
+  points.test(text) && pointsResponse(userId, res)
 }
 const createNewPlayer = (userId, name, text) => {
   Player.create({

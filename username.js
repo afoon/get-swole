@@ -14,12 +14,7 @@ router.use(function (req, res, next) {
 });
 
 router.get('/', function (req, res) {
-  const { userId } = req.params;
-  Player.findOne({ userId: userId }, (err, player) => {
-    console.log(player);
-    if (err) throw err;
-    res.send({ name: player.name, workouts: player.workouts });
-  });
+  res.send(`Get Swole`);
 });
 
 router.use(function (err, req, res, next) {
@@ -59,6 +54,84 @@ router.put("/workouts", function (req, res) {
     }
     axios
       .post(`${GM_DOMAIN}`, { text: workoutResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
+      .then(res => {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    res.end();
+  });
+});
+
+router.put("/meals", function (req, res) {
+  const { userId } = req.params;
+  Player.findOne({ userId: userId }, (err, player) => {
+    if (err) throw err;
+    const meals = ++player.meals;
+    Player.updateOne(
+      { userId: userId },
+      { meals: meals },
+      (error, updatedPlayer) => {
+        if (error) throw error;
+        console.log(updatedPlayer);
+      }
+    );
+    const mealPoints = Math.floor(meals / 3)
+    const mealResponse = `${player.name}'s # of meals: ${meals} for a total of ${mealPoints} meal points`
+    axios
+      .post(`${GM_DOMAIN}`, { text: mealResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
+      .then(res => {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    res.end();
+  });
+});
+
+router.put("/challenge", function (req, res) {
+  const { userId } = req.params;
+  Player.findOne({ userId: userId }, (err, player) => {
+    if (err) throw err;
+    Player.updateOne(
+      { userId: userId },
+      { challenge: true },
+      (error, updatedPlayer) => {
+        if (error) throw error;
+        console.log(updatedPlayer);
+      }
+    );
+    const challengeResponse = `Congrats on completing the challenge, ${player.name}. You get 3 extra points.`
+    axios
+      .post(`${GM_DOMAIN}`, { text: challengeResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
+      .then(res => {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    res.end();
+  });
+});
+
+router.put("/points", function (req, res) {
+  const { userId } = req.params;
+  Player.findOne({ userId: userId }, (err, player) => {
+    if (err) throw err;
+    const points = Math.floor(player.meals / 3) + (player.challenge && 3) + (player.workouts > 4 && (player.workouts - 4))
+    Player.updateOne(
+      { userId: userId },
+      { totalPoints: points },
+      (error, updatedPlayer) => {
+        if (error) throw error;
+        console.log(updatedPlayer);
+      }
+    );
+    const pointResponse = `${player.name} has ${player.totalPoints} pt(s).`
+    axios
+      .post(`${GM_DOMAIN}`, { text: pointResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
       .then(res => {
         console.log(res);
       })
