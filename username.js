@@ -78,7 +78,7 @@ router.put("/meals", function (req, res) {
       }
     );
     const mealPoints = Math.floor(meals / 3)
-    const mealResponse = `${player.name}'s # of meals: ${meals} for a total of ${mealPoints} meal points`
+    const mealResponse = `${player.name}'s # of meals: ${meals} for a total of ${mealPoints} meal point(s)`
     axios
       .post(`${GM_DOMAIN}`, { text: mealResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
       .then(res => {
@@ -121,14 +121,16 @@ router.put("/points", function (req, res) {
   Player.findOne({ userId: userId }, (err, player) => {
     if (err) throw err;
     const points = Math.floor(player.meals / 3) + (player.challenge && 3) + (player.workouts > 4 && (player.workouts - 4))
-    Player.updateOne(
-      { userId: userId },
-      { totalPoints: points },
-      (error, updatedPlayer) => {
-        if (error) throw error;
-        console.log(updatedPlayer);
-      }
-    );
+    if (player.totalPoints !== points) {
+      Player.updateOne(
+        { userId: userId },
+        { totalPoints: points },
+        (error, updatedPlayer) => {
+          if (error) throw error;
+          console.log(updatedPlayer);
+        }
+      );
+    }
     const pointResponse = `${player.name} has ${points} pt(s).`
     axios
       .post(`${GM_DOMAIN}`, { text: pointResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
