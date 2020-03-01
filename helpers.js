@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 const Player = require('./db').Player
 const axios = require('axios')
-const {GM_DOMAIN, BOT_ID } = process.env
+const { GM_DOMAIN, BOT_ID } = process.env
 
 const getUser = (username) => {
   const playerInfo = Player.findOne({ username: username }, (err, player) => {
