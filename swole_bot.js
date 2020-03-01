@@ -1,7 +1,18 @@
-if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 const axios = require('axios')
 const { DOMAIN } = process.env
 const Player = require('./db').Player
+
+const rulesResponse = (userId) => {
+  axios.put(`${DOMAIN}/rules`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
 
 const workoutResponse = (userId) => {
   axios.put(`${DOMAIN}/${userId}/workouts`).then(
@@ -52,10 +63,12 @@ const evaluateText = (text, userId, res) => {
   const meal = /^\/meal/
   const challenge = /^\/challenge/
   const points = /^\/points/
+  const rules = /^\/rules/
   workout.test(text) && workoutResponse(userId, res)
   meal.test(text) && mealResponse(userId, res)
   challenge.test(text) && challengeResponse(userId, res)
   points.test(text) && pointsResponse(userId, res)
+  rules.test(text) && rulesResponse(userId, res)
 }
 const createNewPlayer = (userId, name, text) => {
   Player.create({
