@@ -14,6 +14,17 @@ const rulesResponse = (userId) => {
   })
 }
 
+const leaderResponse = (userId) => {
+  axios.put(`${DOMAIN}/leaderBoard`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
+
 const workoutResponse = (userId) => {
   axios.put(`${DOMAIN}/${userId}/workouts`).then(
     (res) => {
@@ -58,17 +69,32 @@ const pointsResponse = (userId) => {
   })
 }
 
+const handwashResponse = (userId) => {
+  axios.put(`${DOMAIN}/${userId}/handwash`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
+
 const evaluateText = (text, userId, res) => {
   const workout = /^\/workout/
   const meal = /^\/meal/
   const challenge = /^\/challenge/
   const points = /^\/points/
   const rules = /^\/rules/
+  const handwash = /^\/handwash/
+  const leader = /^\/leaderBoard/
   workout.test(text) && workoutResponse(userId, res)
   meal.test(text) && mealResponse(userId, res)
   challenge.test(text) && challengeResponse(userId, res)
   points.test(text) && pointsResponse(userId, res)
   rules.test(text) && rulesResponse(userId, res)
+  handwash.test(text) && handwashResponse(userId, res)
+  leader.test(text) && leaderResponse(userId, res)
 }
 const createNewPlayer = (userId, name, text) => {
   Player.create({
@@ -78,7 +104,8 @@ const createNewPlayer = (userId, name, text) => {
     workouts: 0,
     meals: 0,
     challenge: false,
-    totalPoints: 0
+    totalPoints: 0,
+    handwash: 0
   }, (err, player) => {
     if (err) { throw new Error('Cannot create new player', err) }
     console.log('NEW PLAYER ADDED')

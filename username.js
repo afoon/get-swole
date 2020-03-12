@@ -91,6 +91,32 @@ router.put("/meals", function (req, res) {
   });
 });
 
+router.put("/handwash", function (req, res) {
+  const { userId } = req.params;
+  Player.findOne({ userId: userId }, (err, player) => {
+    if (err) throw err;
+    const handwash = ++player.handwash;
+    Player.updateOne(
+      { userId: userId },
+      { handwash: handwash },
+      (error, updatedPlayer) => {
+        if (error) throw error;
+        console.log(updatedPlayer);
+      }
+    );
+    const handwashResponse = `${player.name} thank you for doing your part to prevent disease. An extra point for you!`
+    axios
+      .post(`${GM_DOMAIN}`, { text: handwashResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
+      .then(res => {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    res.end();
+  });
+});
+
 router.put("/challenge", function (req, res) {
   const { userId } = req.params;
   Player.findOne({ userId: userId }, (err, player) => {
@@ -120,7 +146,7 @@ router.put("/points", function (req, res) {
   const { userId } = req.params;
   Player.findOne({ userId: userId }, (err, player) => {
     if (err) throw err;
-    const points = Math.floor(player.meals / 3) + (player.challenge && 3) + (player.workouts > 4 && (player.workouts - 4))
+    const points = Math.floor(player.meals / 3) + (player.handwash) + (player.challenge && 3) + (player.workouts > 4 && (player.workouts - 4))
     if (player.totalPoints !== points) {
       Player.updateOne(
         { userId: userId },
