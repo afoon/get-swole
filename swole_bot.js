@@ -58,7 +58,7 @@ const pointsResponse = (userId) => {
   })
 }
 
-const leaderResponse = (userId) => {
+const leaderResponse = () => {
   axios.put(`${DOMAIN}/leaderBoard`).then(
     (res) => {
       console.log('Going to the db')
@@ -81,7 +81,7 @@ const evaluateText = (text, userId, res) => {
   challenge.test(text) && challengeResponse(userId, res)
   points.test(text) && pointsResponse(userId, res)
   rules.test(text) && rulesResponse(userId, res)
-  leader.test(text) && leaderResponse(userId, res)
+  leader.test(text) && leaderResponse()
 }
 const createNewPlayer = (userId, name, text) => {
   Player.create({
