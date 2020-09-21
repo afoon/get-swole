@@ -9,7 +9,7 @@ const clearTheStats = () => {
 };
 
 const weeklyReset = new CronJob(
-  "0 1 * * * 0",
+  "10 1 * * * 0",
   async function () {
     const leaders = await createLeaderBoard();
     const { hasFour, needsFour } = leaders;

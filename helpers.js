@@ -11,7 +11,7 @@ const getUser = (username) => {
   return playerInfo;
 };
 
-export const createLeaderBoard = () => {
+const createLeaderBoard = () => {
   const leaderText = Player.find({}, (err, players) => {
     if (err) throw err;
     const hasFour = [];
@@ -33,7 +33,7 @@ export const createLeaderBoard = () => {
   return leaderText;
 };
 
-export const sendLeaderBoard = (hasFour, needsFour, beginningText) => {
+const sendLeaderBoard = (hasFour, needsFour, beginningText) => {
   const text = `${beginningText}: ${hasFour} \n ${needsFour}`;
   axios
     .post(`${GM_DOMAIN}`, { text: text, bot_id: BOT_ID }) // eslint-disable-line camelcase
@@ -54,6 +54,8 @@ const getLeaders = (res) => {
 
 exports.getUser = getUser;
 exports.getLeaders = getLeaders;
+exports.createLeaderBoard = getLeaders;
+exports.sendLeaderBoard = getLeaders;
 // exports.getTotalPoints = getTotalPoints
 // exports.updateWorkout = updateWorkout
 // exports.updateMeal = updateMeal
