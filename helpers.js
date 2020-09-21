@@ -28,7 +28,7 @@ const createLeaderBoard = () => {
     });
     console.log(`Has Four: ${hasFour}`);
     console.log(`Needs Four: ${needsFour}`);
-    return { hasFour, needsFour };
+    return { hasFour: hasFour, needsFour: needsFour };
   });
   return leaderText;
 };
@@ -54,8 +54,8 @@ const getLeaders = (res) => {
 
 exports.getUser = getUser;
 exports.getLeaders = getLeaders;
-exports.createLeaderBoard = getLeaders;
-exports.sendLeaderBoard = getLeaders;
+exports.createLeaderBoard = createLeaderBoard;
+exports.sendLeaderBoard = sendLeaderBoard;
 // exports.getTotalPoints = getTotalPoints
 // exports.updateWorkout = updateWorkout
 // exports.updateMeal = updateMeal
