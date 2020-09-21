@@ -29,7 +29,6 @@ const createLeaderBoard = async () => {
     });
     leaderText = { hasFour: hasFour, needsFour: needsFour };
   });
-  console.log('----lt------', leaderText);
   return leaderText;
 };
 
