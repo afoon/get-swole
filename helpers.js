@@ -11,8 +11,9 @@ const getUser = (username) => {
   return playerInfo;
 };
 
-const createLeaderBoard = () => {
-  const leaderText = Player.find({}, (err, players) => {
+const createLeaderBoard = async () => {
+  let leaderText 
+  await Player.find({}, (err, players) => {
     if (err) throw err;
     const hasFour = [];
     const needsFour = [];
@@ -28,7 +29,7 @@ const createLeaderBoard = () => {
     });
     console.log(`Has Four: ${hasFour}`);
     console.log(`Needs Four: ${needsFour}`);
-    return { hasFour: hasFour, needsFour: needsFour };
+    leaderText = { hasFour: hasFour, needsFour: needsFour };
   });
   console.log('lt', leaderText);
   return leaderText;
