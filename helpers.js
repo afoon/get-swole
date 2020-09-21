@@ -12,7 +12,7 @@ const getUser = (username) => {
 };
 
 const createLeaderBoard = async () => {
-  let leaderText 
+  let leaderText;
   await Player.find({}, (err, players) => {
     if (err) throw err;
     const hasFour = [];
@@ -27,18 +27,16 @@ const createLeaderBoard = async () => {
         ? hasFour.push(pointsResponse)
         : needsFour.push(pointsResponse);
     });
-    console.log(`Has Four: ${hasFour}`);
-    console.log(`Needs Four: ${needsFour}`);
     leaderText = { hasFour: hasFour, needsFour: needsFour };
   });
-  console.log('lt', leaderText);
+  console.log('----lt------', leaderText);
   return leaderText;
 };
 
 const sendLeaderBoard = (leadersBoard, beginningText) => {
   console.log(leadersBoard);
   const { hasFour, needsFour } = leadersBoard;
-  const text = `${beginningText}:\n ${hasFour.toString()} \n ${needsFour.toString()}`;
+  const text = `${beginningText}:\n ${hasFour} \n ${needsFour}`;
   axios
     .post(`${GM_DOMAIN}`, { text: text, bot_id: BOT_ID }) // eslint-disable-line camelcase
     .then((res) => res)
@@ -47,8 +45,8 @@ const sendLeaderBoard = (leadersBoard, beginningText) => {
     });
 };
 
-const getLeaders = (res) => {
-  const leadersBoard = createLeaderBoard();
+const getLeaders = async (res) => {
+  const leadersBoard = await createLeaderBoard();
   sendLeaderBoard(leadersBoard, 'Here is the current Leaderboard');
   res.end();
 };
