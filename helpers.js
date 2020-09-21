@@ -11,8 +11,8 @@ const getUser = (username) => {
   return playerInfo;
 };
 
-const createLeaderBoard = async () => {
-  const leaderText = await Player.find({}, (err, players) => {
+const createLeaderBoard = () => {
+  const leaderText = Player.find({}, (err, players) => {
     if (err) throw err;
     const hasFour = [];
     const needsFour = [];
@@ -26,8 +26,11 @@ const createLeaderBoard = async () => {
         ? hasFour.push(pointsResponse)
         : needsFour.push(pointsResponse);
     });
+    console.log(`Has Four: ${hasFour}`);
+    console.log(`Needs Four: ${needsFour}`);
     return { hasFour: hasFour, needsFour: needsFour };
   });
+  console.log('lt', leaderText);
   return leaderText;
 };
 
@@ -43,9 +46,10 @@ const sendLeaderBoard = (leadersBoard, beginningText) => {
     });
 };
 
-const getLeaders = () => {
+const getLeaders = (res) => {
   const leadersBoard = createLeaderBoard();
   sendLeaderBoard(leadersBoard, 'Here is the current Leaderboard');
+  res.end();
 };
 
 exports.getUser = getUser;
