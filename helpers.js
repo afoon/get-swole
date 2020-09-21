@@ -34,6 +34,7 @@ const createLeaderBoard = () => {
 };
 
 const sendLeaderBoard = (leadersBoard, beginningText) => {
+  console.log(leadersBoard);
   const { hasFour, needsFour } = leadersBoard;
   const text = `${beginningText}:\n ${hasFour} \n ${needsFour}`;
   axios
