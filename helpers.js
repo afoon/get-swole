@@ -34,7 +34,7 @@ const createLeaderBoard = () => {
 };
 
 const sendLeaderBoard = (hasFour, needsFour, beginningText) => {
-  const text = `${beginningText}: ${hasFour} \n ${needsFour}`;
+  const text = `${beginningText}:\n ${hasFour} \n ${needsFour}`;
   axios
     .post(`${GM_DOMAIN}`, { text: text, bot_id: BOT_ID }) // eslint-disable-line camelcase
     .then((res) => {
