@@ -9,8 +9,9 @@ const clearTheStats = () => {
 };
 
 const weeklyReset = new CronJob(
-  "10 1 * * * 0",
+  "0 20 1 * * 0",
   async function () {
+    console.log('cron here');
     const leaders = await createLeaderBoard();
     const { hasFour, needsFour } = leaders;
     await sendLeaderBoard(
