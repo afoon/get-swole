@@ -33,13 +33,12 @@ const createLeaderBoard = () => {
   return leaderText;
 };
 
-const sendLeaderBoard = (hasFour, needsFour, beginningText) => {
+const sendLeaderBoard = (leadersBoard, beginningText) => {
+  const { hasFour, needsFour } = leadersBoard;
   const text = `${beginningText}:\n ${hasFour} \n ${needsFour}`;
   axios
     .post(`${GM_DOMAIN}`, { text: text, bot_id: BOT_ID }) // eslint-disable-line camelcase
-    .then((res) => {
-      console.log(res);
-    })
+    .then((res) => res)
     .catch(function (error) {
       console.log(error);
     });
@@ -47,8 +46,7 @@ const sendLeaderBoard = (hasFour, needsFour, beginningText) => {
 
 const getLeaders = (res) => {
   const leadersBoard = createLeaderBoard();
-  const { hasFour, needsFour } = leadersBoard
-  sendLeaderBoard(hasFour, needsFour, 'Here is the current Leaderboard');
+  sendLeaderBoard(leadersBoard, 'Here is the current Leaderboard');
   res.end();
 };
 
