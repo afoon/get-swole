@@ -58,17 +58,30 @@ const pointsResponse = (userId) => {
   })
 }
 
+const leaderResponse = (userId) => {
+  axios.put(`${DOMAIN}/leaderBoard`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
+
 const evaluateText = (text, userId, res) => {
   const workout = /^\/workout/
   const meal = /^\/meal/
   const challenge = /^\/challenge/
   const points = /^\/points/
   const rules = /^\/rules/
+  const leader = /^\/leaderBoard/
   workout.test(text) && workoutResponse(userId, res)
   meal.test(text) && mealResponse(userId, res)
   challenge.test(text) && challengeResponse(userId, res)
   points.test(text) && pointsResponse(userId, res)
   rules.test(text) && rulesResponse(userId, res)
+  leader.test(text) && leaderResponse(userId, res)
 }
 const createNewPlayer = (userId, name, text) => {
   Player.create({
