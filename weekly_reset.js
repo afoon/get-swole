@@ -14,14 +14,18 @@ const clearTheStats = () => {
 };
 
 const weeklyReset = async () => {
-  const leaders = await createLeaderBoard();
-  const { hasFour, needsFour } = leaders;
-  await sendLeaderBoard(
-    hasFour,
-    needsFour,
-    "Here are the end results for this week"
-  );
-  clearTheStats();
+  const local = DateTime.local();
+  const rezone = local.setZone("America/New_York");
+  if (rezone.weekday === 1) {
+    const leaders = await createLeaderBoard();
+    const { hasFour, needsFour } = leaders;
+    await sendLeaderBoard(
+      hasFour,
+      needsFour,
+      "Here are the end results for this week"
+    );
+    clearTheStats();
+  }
 };
 
 weeklyReset();
