@@ -4,7 +4,7 @@ const { DateTime } = require("luxon");
 
 const clearTheStats = () => {
   const reset = { workouts: 0, meals: 0, challenge: false, totalPoints: 0 };
-  Player.find({}, reset, { multi: true }, (err) => {
+  Player.update({}, reset, { multi: true }, (err) => {
     if (err) throw err;
   });
 };
