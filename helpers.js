@@ -49,10 +49,18 @@ const getLeaders = async (res) => {
   res.end();
 };
 
+const clearTheStats = () => {
+  const reset = { workouts: 0, meals: 0, challenge: false, totalPoints: 0 };
+  Player.updateMany({}, reset, { multi: true }, (err) => {
+    if (err) throw err;
+  });
+};
+
 exports.getUser = getUser;
 exports.getLeaders = getLeaders;
 exports.createLeaderBoard = createLeaderBoard;
 exports.sendLeaderBoard = sendLeaderBoard;
+exports.clearTheStats = clearTheStats
 // exports.getTotalPoints = getTotalPoints
 // exports.updateWorkout = updateWorkout
 // exports.updateMeal = updateMeal
