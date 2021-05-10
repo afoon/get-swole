@@ -141,17 +141,18 @@ router.put("/skip", function (req, res) {
           console.log(error);
         });
       res.end();
+    } else {
+      const failedResponse = `Nice try, ${player.name}. The opt window is closed. But for $20, you can skip workouts this week`
+      axios
+        .post(`${GM_DOMAIN}`, { text: failedResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
+        .then(res => {
+          console.log(res);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      res.end();
     }
-    const failedResponse = `Nice try, ${player.name}. The opt window is closed. But for $20, you can skip workouts this week`
-    axios
-      .post(`${GM_DOMAIN}`, { text: failedResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
-      .then(res => {
-        console.log(res);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    res.end();
   });
 });
 
