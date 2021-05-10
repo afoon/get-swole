@@ -125,7 +125,7 @@ router.put("/skip", function (req, res) {
       if (err) throw err;
       Player.updateOne(
         { userId: userId },
-        { optOut: true },
+        { skip: true },
         (error, updatedPlayer) => {
           if (error) throw error;
           console.log(updatedPlayer);
