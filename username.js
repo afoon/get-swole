@@ -142,7 +142,7 @@ router.put("/skip", function (req, res) {
         });
       res.end();
     }
-    const failedResponse = `Nive try, ${player.name}. The opt window is closed. But for $20, you can skip workouts this week`
+    const failedResponse = `Nice try, ${player.name}. The opt window is closed. But for $20, you can skip workouts this week`
     axios
       .post(`${GM_DOMAIN}`, { text: failedResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
       .then(res => {

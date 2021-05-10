@@ -71,7 +71,7 @@ const leaderResponse = (userId) => {
 }
 
 const skipResponse = (userId) => {
-  axios.put(`${DOMAIN}/skip`).then(
+  axios.put(`${DOMAIN}/${userId}/skip`).then(
     (res) => {
       console.log('Going to the db')
       res.end();
