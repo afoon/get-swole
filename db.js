@@ -20,6 +20,7 @@ const playerSchema = mongoose.Schema({
   workouts: Number,
   meals: Number,
   challenge: Boolean,
-  totalPoints: Number
+  totalPoints: Number,
+  skip: Boolean
 })
 exports.Player = mongoose.model('Player', playerSchema)

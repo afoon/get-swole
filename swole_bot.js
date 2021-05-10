@@ -70,6 +70,17 @@ const leaderResponse = (userId) => {
   })
 }
 
+const skipResponse = (userId) => {
+  axios.put(`${DOMAIN}/${userId}/skip`).then(
+    (res) => {
+      console.log('Going to the db')
+      res.end();
+    }
+  ).catch(function (error) {
+    console.log(error)
+  })
+}
+
 const resetResponse = (userId) => {
   clearTheStats();
 }
@@ -82,6 +93,7 @@ const evaluateText = (text, userId, res) => {
   const rules = /^\/rules/
   const leader = /^\/leaderBoard/
   const reset = /^\/reset/
+  const skip = /^\/skip/
   workout.test(text) && workoutResponse(userId, res)
   meal.test(text) && mealResponse(userId, res)
   challenge.test(text) && challengeResponse(userId, res)
@@ -89,6 +101,7 @@ const evaluateText = (text, userId, res) => {
   rules.test(text) && rulesResponse(userId, res)
   leader.test(text) && leaderResponse(userId, res)
   reset.test(text) && resetResponse(userId, res)
+  skip.test(text) && skipResponse(userId, res)
 }
 const createNewPlayer = (userId, name, text) => {
   Player.create({
@@ -98,7 +111,8 @@ const createNewPlayer = (userId, name, text) => {
     workouts: 0,
     meals: 0,
     challenge: false,
-    totalPoints: 0
+    totalPoints: 0,
+    skip: false
   }, (err, player) => {
     if (err) { throw new Error('Cannot create new player', err) }
     console.log('NEW PLAYER ADDED')
