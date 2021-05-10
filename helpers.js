@@ -18,14 +18,16 @@ const createLeaderBoard = async () => {
     const hasFour = [];
     const needsFour = [];
     players.forEach((player) => {
-      const points =
+      if (!player.skip) {
+        const points =
         Math.floor(player.meals / 3) +
         (player.challenge && 3) +
         (player.workouts > 4 && player.workouts - 4);
-      const pointsResponse = `${player.name}: Pts = ${points} | workouts = ${player.workouts} \n`;
-      player.workouts >= 4
-        ? hasFour.push(pointsResponse)
-        : needsFour.push(pointsResponse);
+        const pointsResponse = `${player.name}: Pts = ${points} | workouts = ${player.workouts} \n`;
+        player.workouts >= 4
+          ? hasFour.push(pointsResponse)
+          : needsFour.push(pointsResponse);
+      }
     });
     leaderText = { hasFour: hasFour, needsFour: needsFour };
   });
@@ -50,7 +52,7 @@ const getLeaders = async (res) => {
 };
 
 const clearTheStats = () => {
-  const reset = { workouts: 0, meals: 0, challenge: false, totalPoints: 0 };
+  const reset = { workouts: 0, meals: 0, challenge: false, totalPoints: 0, skip: false };
   Player.updateMany({}, reset, { multi: true }, (err) => {
     if (err) throw err;
   });
