@@ -108,7 +108,7 @@ router.put("/challenge", function (req, res) {
     axios
       .post(`${GM_DOMAIN}`, { text: challengeResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
       .then(res => {
-        console.log(res);
+        // console.log(res);
       })
       .catch(function (error) {
         console.log(error);
@@ -135,7 +135,6 @@ router.put("/skip", function (req, res) {
       axios
         .post(`${GM_DOMAIN}`, { text: optOutResponse, bot_id: BOT_ID }) // eslint-disable-line camelcase
         .then(res => {
-          console.log(res);
         })
         .catch(function (error) {
           console.log(error);
