@@ -111,7 +111,8 @@ const createNewPlayer = (userId, name, text) => {
     workouts: 0,
     meals: 0,
     challenge: false,
-    totalPoints: 0
+    totalPoints: 0,
+    skip: false
   }, (err, player) => {
     if (err) { throw new Error('Cannot create new player', err) }
     console.log('NEW PLAYER ADDED')
